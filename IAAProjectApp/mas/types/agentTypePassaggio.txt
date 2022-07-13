@@ -1,0 +1,56 @@
+:- use_module(library(aggregate)).
+:- use_module(library(lists)).
+
+:- dynamic(strada_libera/1).
+:- dynamic(treno_prenotato/3).
+
+:- 
+    write('Sono un passaggio a livello!'),
+    assertz(strada_libera(true)).
+
+/* ricezione richiesta di attraversamento */
+richiesta_attraversamentoE(Id, Priorita):>
+    now(Timestamp),
+    assertz(treno_prenotato(Id, Priorita, Timestamp)),
+    format('il treno con id ~w ha chiesto di attraversare al tempo ~2f', [Id, Timestamp]), nl.
+
+/* seleziono il treno successivo */
+elabora_codaA:-
+    write('Elaboro la coda...'), nl,
+
+    max_member(B, treno_prenotato(_,B,_)),
+    write(B),
+
+    treno_prenotato(A, B, C),
+
+    format('Treno successivo: ~d', Id), nl,
+    retract(strada_libera(true)),
+    assertz(strada_libera(false)),
+    concedi_autorizzazioneA(A).
+    
+    
+
+/* comunico al treno successivo di poter attraversare */
+concedi_autorizzazioneA(Id):-
+    format('Ora il treno con id ~d puo passare', Id), nl,
+    number_chars(Id, App),
+    atom_chars(IdString, App),
+    atom_concat('agentTreno', IdString, AgentName),
+    messageA(AgentName, propose(attraversamento, [], Me)).
+
+/* ricezione termine attraversamento, dire al treno successivo che può attraversare */
+termine_attraversamentoE(Id):> 
+    retract(treno_prenotato(Id,_,_)),
+    format('Il treno con id ~d mi ha comunicato di aver terminato di attraversare', Id), nl,
+    retract(strada_libera(false)),
+    assertz(strada_libera(true)).
+
+strada_libera :-
+    write('').
+
+/* se la strada è libera */
+strada_liberaI :-
+    strada_libera(X),
+    true == X,
+    treno_prenotato(Id,Priorita,Timestamp),
+    elabora_codaA.    
