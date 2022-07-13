@@ -1,1 +1,1 @@
-'air-di-miriana.station':3010.
+'macbook-air-di-miriana.local':3010.

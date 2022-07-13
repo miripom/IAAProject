@@ -4,7 +4,7 @@ clear # cls
 #title "MAS"
 SICSTUS_HOME=/Users/mirianapompilio/bin/sp-4.7.1
 MAIN_HOME=../..
-DALI_HOME=../../src
+DALI_HOME=../src
 CONF_DIR=conf
 PROLOG="/Users/mirianapompilio/bin/sicstus"
 WAIT="ping -c 4 127.0.0.1"
