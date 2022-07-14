@@ -4,9 +4,8 @@
 :- dynamic(strada_libera/1).
 :- dynamic(treno_prenotato/3).
 
-:- 
-    write('Sono un passaggio a livello!'),
-    assertz(strada_libera(true)).
+:- write('Sono un passaggio a livello!'),
+   assertz(strada_libera(true)).
 
 /* ricezione richiesta di attraversamento */
 richiesta_attraversamentoE(Id, Priorita):>

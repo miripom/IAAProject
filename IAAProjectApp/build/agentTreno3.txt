@@ -26,10 +26,10 @@ chiedo_di_passareA(Passaggio):-
 attraverso :- write('').
 
 attraversoI:- 
-    stato_attraversamento(Y, Passaggio),
+    stato_attraversamento(Y),
     'concesso' == Y,
-    retractall(stato_attraversamento(_, Passaggio)),
-    assertz(stato_attraversamento('incorso'),
+    retractall(stato_attraversamento(_)),
+    assertz(stato_attraversamento('incorso')),
     messageA(agentPassaggio, accept_proposal(test, [], Me)),
     write('Il passaggio mi ha appena concesso ad attraversare'), nl,
     termino_attraversamentoA.
@@ -37,9 +37,9 @@ attraversoI:-
 /* il treno attraversa */
 termino_attraversamentoA:-
     info_treno(Id, _),
-    stato_attraversamento(X, Passaggio),
+    stato_attraversamento(X),
     X == 'incorso',
     retractall(stato_attraversamento(_)),
-    assertz(stato_attraversamento('terminato'),
+    assertz(stato_attraversamento('terminato')),
     write('Ho attraversato incrocio'), nl,
     messageA(Passaggio, send_message(termine_attraversamento(Id), Me)).
