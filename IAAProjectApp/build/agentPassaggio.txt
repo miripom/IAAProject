@@ -8,25 +8,24 @@
    assertz(strada_libera(true)).
 
 /* ricezione richiesta di attraversamento */
-richiesta_attraversamentoE(Id, Priorita):>
+richiesta_attraversamentoE(Id,Priorita):>	
+    write('SONO QUI!!'), nl,
     now(Timestamp),
-    assertz(treno_prenotato(Id, Priorita, Timestamp)),
+    assertz(treno_prenotato(Id,Priorita,Timestamp)),
     format('il treno con id ~w ha chiesto di attraversare al tempo ~2f', [Id, Timestamp]), nl.
 
 /* seleziono il treno successivo */
 elabora_codaA:-
     write('Elaboro la coda...'), nl,
 
-    max_member(B, treno_prenotato(_,B,_)),
-    write(B),
-
-    treno_prenotato(A, B, C),
-
+    treno_prenotato(_,Xp,_),
+    not((treno_prenotato(_,Xp2,_), Xp2 > Xp)),
+    treno_prenotato(Id,Xp,Xt), 
+    not((treno_prenotato(_,Xp,Xt2), Xt2 < Xt)),
     format('Treno successivo: ~d', Id), nl,
     retract(strada_libera(true)),
     assertz(strada_libera(false)),
-    concedi_autorizzazioneA(A).
-    
+    concedi_autorizzazioneA(Id).
     
 
 /* comunico al treno successivo di poter attraversare */

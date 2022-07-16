@@ -8,8 +8,8 @@
 :- write('Sono una trenino!').
 
 /* inizializzazione del treno */
-initE(Id, Priorita):>
-    assertz(info_treno(Id, Priorita)).
+initE(Id,Priorita):>
+    assertz(info_treno(Id,Priorita)).
 
 /* il treno "arriva" al passaggio */
 arrivo_al_passaggioE(Passaggio):>
@@ -19,9 +19,9 @@ arrivo_al_passaggioE(Passaggio):>
 
 /* il treno richiede di poter passare. */
 chiedo_di_passareA(Passaggio):- 
-    info_treno(Id, Priorita),
+    info_treno(Id,Priorita),
     write('Sto per chiedere al passaggio di attraversare'), nl,
-    messageA(Passaggio, send_message(richiesta_attraversamento(Id, Priorita), Me)). 
+    messageA(Passaggio, send_message(richiesta_attraversamento(Id,Priorita), Me)). 
 
 attraverso :- write('').
 
@@ -36,7 +36,7 @@ attraversoI:-
 
 /* il treno attraversa */
 termino_attraversamentoA:-
-    info_treno(Id, _),
+    info_treno(Id,_),
     stato_attraversamento(X),
     X == 'incorso',
     retractall(stato_attraversamento(_)),
