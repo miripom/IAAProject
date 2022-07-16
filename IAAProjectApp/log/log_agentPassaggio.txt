@@ -1,1 +1,2 @@
-send_message(propose(attraversamento,[],_28085))
+send_message(propose(attraversamento,[],_165529))
+send_message(propose(attraversamento,[],_165525))

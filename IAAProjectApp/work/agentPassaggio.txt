@@ -37,7 +37,7 @@ concedi_autorizzazioneA(Id):-
     messageA(AgentName, propose(attraversamento, [], Me)).
 
 /* ricezione termine attraversamento, dire al treno successivo che può attraversare */
-termine_attraversamentoE(Id):> 
+termino_attraversamentoE(Id):> 
     retract(treno_prenotato(Id,_,_)),
     format('Il treno con id ~d mi ha comunicato di aver terminato di attraversare', Id), nl,
     retract(strada_libera(false)),

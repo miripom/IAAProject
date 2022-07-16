@@ -7,6 +7,12 @@
 
 :- write('Sono una trenino!').
 
+
+asserisci_ontologia(Semaforo, [], attraversamento) :- 
+    retractall(stato_attraversamento(_)),
+    assertz(stato_attraversamento('concesso')).
+
+
 /* inizializzazione del treno */
 initE(Id,Priorita):>
     assertz(info_treno(Id,Priorita)).
@@ -42,4 +48,4 @@ termino_attraversamentoA:-
     retractall(stato_attraversamento(_)),
     assertz(stato_attraversamento('terminato')),
     write('Ho attraversato incrocio'), nl,
-    messageA(Passaggio, send_message(termine_attraversamento(Id), Me)).
+    messageA(Passaggio, send_message(termino_attraversamento(Id), Me)).
