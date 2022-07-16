@@ -8,7 +8,7 @@
 :- write('Sono una trenino!').
 
 
-asserisci_ontologia(Semaforo, [], attraversamento) :- 
+asserisci_ontologia(Passaggio, [], attraversamento) :- 
     retractall(stato_attraversamento(_)),
     assertz(stato_attraversamento('concesso')).
 
