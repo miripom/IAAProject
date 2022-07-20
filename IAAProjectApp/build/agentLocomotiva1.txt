@@ -1,4 +1,5 @@
 
+
 :- use_module(library(system)).
 
 :- dynamic info_treno/2.
@@ -7,7 +8,11 @@
 
 :- write('Sono una trenino!').
 
+:-assertz(info_treno(1,2)),
+  assertz(info_treno(2,1)),
+  assertz(info_treno(3,1)).
 
+/*ontologia*/
 asserisci_ontologia(Passaggio, [], attraversamento) :- 
     retractall(stato_attraversamento(_)),
     assertz(stato_attraversamento('concesso')).
@@ -48,4 +53,5 @@ termino_attraversamentoA:-
     retractall(stato_attraversamento(_)),
     assertz(stato_attraversamento('terminato')),
     write('Ho attraversato incrocio'), nl,
-    messageA(Passaggio, send_message(termino_attraversamento(Id), Me)).
+    messageA(agentPassaggio, send_message(termino_attraversamento(Id), Me)).
+

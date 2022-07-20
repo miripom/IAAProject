@@ -2,11 +2,11 @@
 #exec 1>/dev/null # @echo off
 clear # cls
 #title "MAS"
-SICSTUS_HOME=/Users/mirianapompilio/bin/sp-4.7.1
+SICSTUS_HOME=/usr/local/sicstus4.6.0
 MAIN_HOME=../..
 DALI_HOME=../src
 CONF_DIR=conf
-PROLOG="/Users/mirianapompilio/bin/sicstus"
+PROLOG="/Users/giuliascoccia/Desktop/sicstus/bin/sicstus"
 WAIT="ping -c 4 127.0.0.1"
 INSTANCES_HOME=mas/instances
 TYPES_HOME=mas/types

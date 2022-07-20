@@ -4,12 +4,17 @@
 :- dynamic(strada_libera/1).
 :- dynamic(treno_prenotato/3).
 
+
 :- write('Sono un passaggio a livello!'),
    assertz(strada_libera(true)).
 
 /* ricezione richiesta di attraversamento */
+
+:-assertz(treno_prenotato(1,2,4)),
+  assertz(treno_prenotato(2,1,6)),
+  assertz(treno_prenotato(3,1,5)).
+
 richiesta_attraversamentoE(Id,Priorita):>	
-    write('SONO QUI!!'), nl,
     now(Timestamp),
     assertz(treno_prenotato(Id,Priorita,Timestamp)),
     format('il treno con id ~w ha chiesto di attraversare al tempo ~2f', [Id, Timestamp]), nl.
@@ -33,7 +38,7 @@ concedi_autorizzazioneA(Id):-
     format('Ora il treno con id ~d puo passare', Id), nl,
     number_chars(Id, App),
     atom_chars(IdString, App),
-    atom_concat('agentTreno', IdString, AgentName),
+    atom_concat('agentLocomotiva', IdString, AgentName),
     messageA(AgentName, propose(attraversamento, [], Me)).
 
 /* ricezione termine attraversamento, dire al treno successivo che può attraversare */
