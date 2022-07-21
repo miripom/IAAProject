@@ -1,0 +1,42 @@
+:- use_module(library(system)).
+:- dynamic info_treno/2.
+:- dynamic stato_attraversamento/1.
+:- write('Sono una trenino!').
+
+/* inizializzazione del treno */
+initE(Id,Priorita):>
+    assertz(info_treno(Id,Priorita)).
+
+/* il treno "arriva" al passaggio */
+arrivo_al_passaggioE(Passaggio):>
+    assertz(stato_attraversamento('no')),
+    format('Sono arrivato presso il passaggio ~w', Passaggio), nl,
+    chiedo_di_passareA(Passaggio).
+
+/* il treno richiede di poter passare. */
+chiedo_di_passareA(Passaggio):- 
+    info_treno(Id,Priorita),
+    write('Sto per chiedere al passaggio di attraversare'), nl,
+    messageA(Passaggio, send_message(richiesta_attraversamento(Id,Priorita), Me)). 
+
+attraverso :- write('').
+
+attraversoI:- 
+    stato_attraversamento(Y),
+    'concesso' == Y,
+    retractall(stato_attraversamento(_)),
+    assertz(stato_attraversamento('incorso')),
+    messageA(agentPassaggio, accept_proposal(test, [], Me)),
+    write('Il passaggio mi ha appena concesso ad attraversare'), nl,
+    termino_attraversamentoA.
+
+/* il treno attraversa */
+termino_attraversamentoA:-
+    info_treno(Id,_),
+    stato_attraversamento(X),
+    X == 'incorso',
+    retractall(stato_attraversamento(_)),
+    assertz(stato_attraversamento('terminato')),
+    write('Ho attraversato incrocio'), nl,
+    messageA(agentPassaggio, send_message(termino_attraversamento(Id), Me)).
+

@@ -1,0 +1,1 @@
+send_message(inform(send_message(init(2,1),me),motivation(refused_message),agentTreno1))

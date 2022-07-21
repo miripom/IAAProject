@@ -1,3 +1,0 @@
-send_message(reject_proposal(attraversamento,[],agentLocomotiva3))
-send_message(accept_proposal(test,[],_29363))
-send_message(send_message(termino_attraversamento(1),_34165))

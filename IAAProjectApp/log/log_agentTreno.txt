@@ -1,0 +1,1 @@
+send_message(send_message(init(2,1),me))
