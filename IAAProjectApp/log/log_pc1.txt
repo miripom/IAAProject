@@ -1,0 +1,4 @@
+send_message(send_message(election(10),_918813))
+make(part)
+send_message(send_message(election(10),_944697))
+make(part)

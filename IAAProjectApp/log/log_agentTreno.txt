@@ -1,1 +1,2 @@
-send_message(send_message(init(2,1),me))
+send_message(send_message(arrivo(1,1),_916207))
+send_message(send_message(chiede_passaggio(1,1),_920937))

@@ -1,1 +1,6 @@
-send_message(inform(send_message(init(2,1),me),motivation(refused_message),agentTreno1))
+send_message(send_message(parti,_900697))
+send_message(send_message(chiede_passaggio(1,1),_930731))
+send_message(send_message(termino_attraversamento(1),_925905))
+send_message(send_message(parti,_939503))
+send_message(send_message(chiede_passaggio(1,1),_944401))
+send_message(send_message(termino_attraversamento(1),_939471))
