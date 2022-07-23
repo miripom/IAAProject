@@ -1,13 +1,25 @@
 
-info_treno(1,1).
+:-use_module(library(aggregate)).
 
-eve(go):-write('sto partendo'),a(message(agentTreno2,send_message(parti,var_Me))),a(message(agentMerce1,send_message(parti,var_Me))),once(a(arrivo_al_passaggio)).
+:-use_module(library(lists)).
 
-a(arrivo_al_passaggio):-a(message(agentPassaggio1,send_message(chiede_passaggio(1,1),var_Me))).
+:-dynamic treno_prenotato/3.
 
-eve(attraversa):-write('Il passaggio mi ha appena concesso ad attraversare'),nl,a(termino_attraversamento).
+:-dynamic strada_libera/1.
 
-a(termino_attraversamento):-write('Ho attraversato incrocio'),nl,a(message(agentPassaggio1,send_message(termino_attraversamento(1),var_Me))).
+:-assert(strada_libera(true)).
+
+eve(chiede_passaggio(var_X,var_Y)):-now(var_Timestamp),assert(treno_prenotato(var_X,var_Y,var_Timestamp)),format('il treno con id ~w ha chiesto di attraversare al tempo ~2f',[var_X,var_Timestamp]),nl.
+
+a(elabora_coda):-write('Elaboro la coda...'),nl,treno_prenotato(var__,var__,var_Xt),not((treno_prenotato(var__,var__,var_Xt2),var_Xt2<var_Xt)),treno_prenotato(var_X,var_Xp,var_Xt),not((treno_prenotato(var__,var_Xp2,var_Xt),var_Xp2>var_Xp)),format('Treno successivo: ~d',var_X),nl,retract(strada_libera(true)),assert(strada_libera(false)),a(concedi_autorizzazione(var_X)).
+
+a(concedi_autorizzazione(var_X)):-format('Ora il treno con id ~d puo passare',var_X),nl,number_chars(var_X,var_App),atom_chars(var_XString,var_App),atom_concat('agentMerce',var_XString,var_AgentName),a(message(var_AgentName,send_message(attraversa,var_Me))).
+
+eve(termino_attraversamento(var_X)):-retract(treno_prenotato(var_X,var__,var__)),format('Il treno con id ~d mi ha comunicato di aver terminato di attraversare',var_X),nl,retract(strada_libera(false)),assert(strada_libera(true)).
+
+strada_libera:-write('').
+
+evi(strada_libera):-strada_libera(var_Z),true==var_Z,treno_prenotato(var_X,var_Y,var_Timestamp),a(elabora_coda).
 
 :-dynamic receive/1.
 
@@ -99,11 +111,11 @@ call_inform(var_X,var_Ag,var_T):-asse_cosa(past_event(inform(var_X,var_Ag),var_T
 
 call_refuse(var_X,var_Ag,var_T):-clause(agent(var_A),var__),asse_cosa(past_event(var_X,var_T)),statistics(walltime,[var_Tp,var__]),retractall(past(var_X,var__,var_Ag)),assert(past(var_X,var_Tp,var_Ag)),a(message(var_Ag,reply(received(var_X),var_A))).
 
-call_cfp(var_A,var_C,var_Ag):-clause(agent(var_AgI),var__),clause(ext_agent(var_Ag,_317381,var_Ontology,_317385),_317375),asserisci_ontologia(var_Ag,var_Ontology,var_A),once(call_meta_execute_cfp(var_A,var_C,var_Ag,_317419)),a(message(var_Ag,propose(var_A,[_317419],var_AgI))),retractall(ext_agent(var_Ag,_317457,var_Ontology,_317461)).
+call_cfp(var_A,var_C,var_Ag):-clause(agent(var_AgI),var__),clause(ext_agent(var_Ag,_340423,var_Ontology,_340427),_340417),asserisci_ontologia(var_Ag,var_Ontology,var_A),once(call_meta_execute_cfp(var_A,var_C,var_Ag,_340461)),a(message(var_Ag,propose(var_A,[_340461],var_AgI))),retractall(ext_agent(var_Ag,_340499,var_Ontology,_340503)).
 
-call_propose(var_A,var_C,var_Ag):-clause(agent(var_AgI),var__),clause(ext_agent(var_Ag,_317255,var_Ontology,_317259),_317249),asserisci_ontologia(var_Ag,var_Ontology,var_A),once(call_meta_execute_propose(var_A,var_C,var_Ag)),a(message(var_Ag,accept_proposal(var_A,[],var_AgI))),retractall(ext_agent(var_Ag,_317325,var_Ontology,_317329)).
+call_propose(var_A,var_C,var_Ag):-clause(agent(var_AgI),var__),clause(ext_agent(var_Ag,_340297,var_Ontology,_340301),_340291),asserisci_ontologia(var_Ag,var_Ontology,var_A),once(call_meta_execute_propose(var_A,var_C,var_Ag)),a(message(var_Ag,accept_proposal(var_A,[],var_AgI))),retractall(ext_agent(var_Ag,_340367,var_Ontology,_340371)).
 
-call_propose(var_A,var_C,var_Ag):-clause(agent(var_AgI),var__),clause(ext_agent(var_Ag,_317143,var_Ontology,_317147),_317137),not(call_meta_execute_propose(var_A,var_C,var_Ag)),a(message(var_Ag,reject_proposal(var_A,[],var_AgI))),retractall(ext_agent(var_Ag,_317199,var_Ontology,_317203)).
+call_propose(var_A,var_C,var_Ag):-clause(agent(var_AgI),var__),clause(ext_agent(var_Ag,_340185,var_Ontology,_340189),_340179),not(call_meta_execute_propose(var_A,var_C,var_Ag)),a(message(var_Ag,reject_proposal(var_A,[],var_AgI))),retractall(ext_agent(var_Ag,_340241,var_Ontology,_340245)).
 
 call_accept_proposal(var_A,var_Mp,var_Ag,var_T):-asse_cosa(past_event(accepted_proposal(var_A,var_Mp,var_Ag),var_T)),statistics(walltime,[var_Tp,var__]),retractall(past(accepted_proposal(var_A,var_Mp,var_Ag),var__,var_Ag)),assert(past(accepted_proposal(var_A,var_Mp,var_Ag),var_Tp,var_Ag)).
 
@@ -111,7 +123,7 @@ call_reject_proposal(var_A,var_Mp,var_Ag,var_T):-asse_cosa(past_event(rejected_p
 
 call_failure(var_A,var_M,var_Ag,var_T):-asse_cosa(past_event(failed_action(var_A,var_M,var_Ag),var_T)),statistics(walltime,[var_Tp,var__]),retractall(past(failed_action(var_A,var_M,var_Ag),var__,var_Ag)),assert(past(failed_action(var_A,var_M,var_Ag),var_Tp,var_Ag)).
 
-call_cancel(var_A,var_Ag):-if(clause(high_action(var_A,var_Te,var_Ag),_316707),retractall(high_action(var_A,var_Te,var_Ag)),true),if(clause(normal_action(var_A,var_Te,var_Ag),_316741),retractall(normal_action(var_A,var_Te,var_Ag)),true).
+call_cancel(var_A,var_Ag):-if(clause(high_action(var_A,var_Te,var_Ag),_339749),retractall(high_action(var_A,var_Te,var_Ag)),true),if(clause(normal_action(var_A,var_Te,var_Ag),_339783),retractall(normal_action(var_A,var_Te,var_Ag)),true).
 
 external_refused_action_propose(var_A,var_Ag):-clause(not_executable_action_propose(var_A,var_Ag),var__).
 
@@ -119,17 +131,17 @@ evi(external_refused_action_propose(var_A,var_Ag)):-clause(agent(var_Ai),var__),
 
 refused_message(var_AgM,var_Con):-clause(eliminated_message(var_AgM,var__,var__,var_Con,var__),var__).
 
-refused_message(var_To,var_M):-clause(eliminated_message(var_M,var_To,motivation(conditions_not_verified)),_316523).
+refused_message(var_To,var_M):-clause(eliminated_message(var_M,var_To,motivation(conditions_not_verified)),_339565).
 
 evi(refused_message(var_AgM,var_Con)):-clause(agent(var_Ai),var__),a(message(var_AgM,inform(var_Con,motivation(refused_message),var_Ai))),retractall(eliminated_message(var_AgM,var__,var__,var_Con,var__)),retractall(eliminated_message(var_Con,var_AgM,motivation(conditions_not_verified))).
 
-send_jasper_return_message(var_X,var_S,var_T,var_S0):-clause(agent(var_Ag),_316371),a(message(var_S,send_message(sent_rmi(var_X,var_T,var_S0),var_Ag))).
+send_jasper_return_message(var_X,var_S,var_T,var_S0):-clause(agent(var_Ag),_339413),a(message(var_S,send_message(sent_rmi(var_X,var_T,var_S0),var_Ag))).
 
-gest_learn(var_H):-clause(past(learn(var_H),var_T,var_U),_316319),learn_if(var_H,var_T,var_U).
+gest_learn(var_H):-clause(past(learn(var_H),var_T,var_U),_339361),learn_if(var_H,var_T,var_U).
 
-evi(gest_learn(var_H)):-retractall(past(learn(var_H),_316195,_316197)),clause(agente(_316217,_316219,_316221,var_S),_316213),name(var_S,var_N),append(var_L,[46,112,108],var_N),name(var_F,var_L),manage_lg(var_H,var_F),a(learned(var_H)).
+evi(gest_learn(var_H)):-retractall(past(learn(var_H),_339237,_339239)),clause(agente(_339259,_339261,_339263,var_S),_339255),name(var_S,var_N),append(var_L,[46,112,108],var_N),name(var_F,var_L),manage_lg(var_H,var_F),a(learned(var_H)).
 
-cllearn:-clause(agente(_315989,_315991,_315993,var_S),_315985),name(var_S,var_N),append(var_L,[46,112,108],var_N),append(var_L,[46,116,120,116],var_To),name(var_FI,var_To),open(var_FI,read,_316089,[]),repeat,read(_316089,var_T),arg(1,var_T,var_H),write(var_H),nl,var_T==end_of_file,!,close(_316089).
+cllearn:-clause(agente(_339031,_339033,_339035,var_S),_339027),name(var_S,var_N),append(var_L,[46,112,108],var_N),append(var_L,[46,116,120,116],var_To),name(var_FI,var_To),open(var_FI,read,_339131,[]),repeat,read(_339131,var_T),arg(1,var_T,var_H),write(var_H),nl,var_T==end_of_file,!,close(_339131).
 
 send_msg_learn(var_T,var_A,var_Ag):-a(message(var_Ag,confirm(learn(var_T),var_A))).
 

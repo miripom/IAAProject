@@ -1,4 +1,0 @@
-send_message(send_message(chiede_passaggio(3,2),_893503))
-send_message(send_message(termino_attraversamento(3),_893483))
-send_message(send_message(chiede_passaggio(3,2),_918123))
-send_message(send_message(termino_attraversamento(3),_918115))

@@ -1,6 +1,0 @@
-send_message(send_message(attraversa,_30027))
-send_message(send_message(attraversa,_30147))
-send_message(send_message(attraversa,_30189))
-send_message(send_message(attraversa,_42125))
-send_message(send_message(attraversa,_28349))
-send_message(send_message(attraversa,_30287))

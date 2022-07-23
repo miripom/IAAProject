@@ -1,0 +1,2 @@
+send_message(send_message(avvisa_medico,_890971))
+send_message(send_message(arriva_paziente(info_paziente),_920791))

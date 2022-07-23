@@ -1,6 +1,6 @@
 info_treno(1,1).
 
-goE :> write('sto partendo'), messageA(agentTreno2, send_message(parti,Me)), once(arrivo_al_passaggioA).
+goE :> write('sto partendo'), messageA(agentTreno2, send_message(parti,Me)),messageA(agentMerce1,send_message(parti,Me)), once(arrivo_al_passaggioA).
 
 
        

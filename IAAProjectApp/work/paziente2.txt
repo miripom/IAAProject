@@ -1,0 +1,7 @@
+info_paziente(2,3).
+arriva_ospedaleE:>messageA(paziente3,send_message(arriva_ospedale,Me)),
+	avvisa_medicoA.
+avvisa_medicoA:-messageA(medico,send_message(arriva_paziente(ticket_paziente),Me)).
+visita_pazienteE:>
+	write('Il paziente 2 si fa visitare...'),
+	messageA(medico,send_message(termina_visita(2),Me)).

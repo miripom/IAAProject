@@ -1,0 +1,15 @@
+info_treno(2,2).
+
+partiE:>  write('Sono partito'),
+	 once(arrivo_al_passaggioA). 
+
+arrivo_al_passaggioA :> messageA(agentPassaggio2, send_message(chiede_passaggio(2,2), Me)).
+
+
+attraversaE:-
+    write('Il passaggio mi ha appena concesso ad attraversare'), nl,
+    termino_attraversamentoA.
+
+termino_attraversamentoA:-
+    write('Ho attraversato incrocio'), nl,
+    messageA(agentPassaggio2, send_message(termino_attraversamento(2), Me)).
