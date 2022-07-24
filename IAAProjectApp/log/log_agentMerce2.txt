@@ -1,0 +1,2 @@
+send_message(send_message(chiede_passaggio(2,2),_337611))
+send_message(send_message(termino_attraversamento(2),_362199))

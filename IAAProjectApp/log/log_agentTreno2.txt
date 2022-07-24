@@ -1,0 +1,3 @@
+send_message(send_message(parti,_343195))
+send_message(send_message(chiede_passaggio(2,1),_373021))
+send_message(send_message(termino_attraversamento(2),_343163))
